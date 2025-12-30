@@ -113,6 +113,7 @@ int tg_printf(const char *format, ...)
                         *(buffer + bufidx + 2) = '1';
                         *(buffer + bufidx + 3) = '0';
                     }
+                    
                 }
                 else // Invalid specifier.
                 {  
@@ -129,54 +130,63 @@ int tg_printf(const char *format, ...)
                 strcpy(buffer + bufidx, TG_TEXT_STYLE_BOLD);   
                 bufidx += TG_TEXT_STYLE_SEQUENCE_LENGTH - 1;
                 ftmidx += 2;
+                written -= TG_TEXT_STYLE_SEQUENCE_LENGTH - 1;
                 break;
 
             case 'd': // dim style
                 strcpy(buffer + bufidx, TG_TEXT_STYLE_DIM);   
                 bufidx += TG_TEXT_STYLE_SEQUENCE_LENGTH - 1;
                 ftmidx += 2;
+                written -= TG_TEXT_STYLE_SEQUENCE_LENGTH - 1;
                 break;
 
             case 'i': // italic style
                 strcpy(buffer + bufidx, TG_TEXT_STYLE_ITALIC);   
                 bufidx += TG_TEXT_STYLE_SEQUENCE_LENGTH - 1;
                 ftmidx += 2;
+                written -= TG_TEXT_STYLE_SEQUENCE_LENGTH - 1;
                 break;
 
             case 'u': // underline style
                 strcpy(buffer + bufidx, TG_TEXT_STYLE_UNDERLINE);   
                 bufidx += TG_TEXT_STYLE_SEQUENCE_LENGTH - 1;
                 ftmidx += 2;
+                written -= TG_TEXT_STYLE_SEQUENCE_LENGTH - 1;
                 break;
 
             case 'l': // blinking style
                 strcpy(buffer + bufidx, TG_TEXT_STYLE_BLINKING);   
                 bufidx += TG_TEXT_STYLE_SEQUENCE_LENGTH - 1;
                 ftmidx += 2;
+                written -= TG_TEXT_STYLE_SEQUENCE_LENGTH - 1;
                 break;
 
             case 'n': // inverse style
                 strcpy(buffer + bufidx, TG_TEXT_STYLE_INVERSE);   
                 bufidx += TG_TEXT_STYLE_SEQUENCE_LENGTH - 1;
                 ftmidx += 2;
+                written -= TG_TEXT_STYLE_SEQUENCE_LENGTH - 1;
                 break;
 
             case 'U': // double underline style
             strcpy(buffer + bufidx, TG_TEXT_STYLE_DOUBLE_UNDERLINE);   
             bufidx += TG_TEXT_STYLE_SEQUENCE_LENGTH - 1;
             ftmidx += 2;
+            written -= TG_TEXT_STYLE_SEQUENCE_LENGTH - 1;
             break;
 
             case 'h': // hidden style
                 strcpy(buffer + bufidx, TG_TEXT_STYLE_HIDDEN);   
                 bufidx += TG_TEXT_STYLE_SEQUENCE_LENGTH - 1;
                 ftmidx += 2;
+                written -= TG_TEXT_STYLE_SEQUENCE_LENGTH - 1;
                 break;
 
             case 's': // strikethrough style
                 strcpy(buffer + bufidx, TG_TEXT_STYLE_STRIKETHROUGH);   
                 bufidx += TG_TEXT_STYLE_SEQUENCE_LENGTH - 1;
                 ftmidx += 2;
+                written -= TG_TEXT_STYLE_SEQUENCE_LENGTH - 1;
                 break;
 
             case '0': // reset modes
@@ -265,8 +275,9 @@ int tg_printf(const char *format, ...)
                     ftmidx += 2;
                     break;
                 }
+                written -= TG_TEXT_STYLE_SEQUENCE_LENGTH - 1;
                 break;
-
+                
             case '#': // case for ##
                 buffer[bufidx++] = '#';
                 ftmidx += 2;
@@ -276,6 +287,7 @@ int tg_printf(const char *format, ...)
                 buffer[bufidx++] = format[ftmidx++];
                 break;
             }
+            
         }
         else // format[ftmidx] != '#'
         {
@@ -287,6 +299,7 @@ int tg_printf(const char *format, ...)
 
     // Adding final reset-all-modes sequence
     strcpy(buffer + bufidx, TG_RESET_ALL_MODES);
+    written -= TG_TEXT_STYLE_SEQUENCE_LENGTH - 1;
 
     // ---------------------------------- 03 ----------------------------------
     // Once the buffer string is left with only the standard specifiers, it is
