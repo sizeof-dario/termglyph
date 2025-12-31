@@ -1,6 +1,6 @@
-/*********************************************************************** *//**
+/*************************************************************************//**
  * 
- * @file termglyph_printf.h
+ * @file tg_printf.h
  * 
  * @brief Header file dedicated to the tg_printf function
  * 
@@ -12,34 +12,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#include "termglyph_color.h"
+#include "text_attributes.h"
 
-#define TG_TEXT_STYLE_SEQUENCE_LENGTH 6
-
-#define TG_RESET_ALL_MODES                      "\033[00m"
-
-#define TG_RESET_FOREGROUND_COLOR               "\033[39m"
-#define TG_RESET_BACKGROUND_COLOR               "\033[49m"
-
-#define TG_TEXT_STYLE_BOLD                      "\033[01m"
-#define TG_TEXT_STYLE_DIM                       "\033[02m"
-#define TG_TEXT_STYLE_ITALIC                    "\033[03m"
-#define TG_TEXT_STYLE_UNDERLINE                 "\033[04m"
-#define TG_TEXT_STYLE_BLINKING                  "\033[05m"
-#define TG_TEXT_STYLE_INVERSE                   "\033[07m"
-#define TG_TEXT_STYLE_HIDDEN                    "\033[08m"
-#define TG_TEXT_STYLE_STRIKETHROUGH             "\033[09m"
-#define TG_TEXT_STYLE_DOUBLE_UNDERLINE          "\033[21m"
-
-#define TG_TEXT_STYLE_BOLD_RESET                "\033[22m"
-#define TG_TEXT_STYLE_DIM_RESET                 "\033[22m"
-#define TG_TEXT_STYLE_ITALIC_RESET              "\033[23m"
-#define TG_TEXT_STYLE_UNDERLINE_RESET           "\033[24m"
-#define TG_TEXT_STYLE_BLINKING_RESET            "\033[25m"
-#define TG_TEXT_STYLE_INVERSE_RESET             "\033[27m"
-#define TG_TEXT_STYLE_HIDDEN_RESET              "\033[28m"
-#define TG_TEXT_STYLE_STRIKETHROUGH_RESET       "\033[29m"
-#define TG_TEXT_STYLE_DOUBLE_UNDERLINE_RESET    "\033[24m"
+// vvv still needs to be properly written
 
 /**
  * @brief Writes formatted output to stdout.

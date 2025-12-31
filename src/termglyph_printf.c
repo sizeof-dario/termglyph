@@ -1,4 +1,4 @@
-#include "include/termglyph_printf.h"
+#include "../include/termglyph/tg_printf.h"
 
 int tg_printf(const char *format, ...)
 {
@@ -23,7 +23,7 @@ int tg_printf(const char *format, ...)
             // specifiers. This means the buffer will almost surely be larger
             // than necessary; however, I chose code simplicty over strict size
             // optimization. 
-            bufsize += TG_RGBCOLOR_SEQUENCE_LENGTH;
+            bufsize += TG_DIRECT_COLOR_SEQUENCE_LENGTH;
         }
         else // format[i] != '#'
         {
@@ -47,7 +47,7 @@ int tg_printf(const char *format, ...)
     int written = 0; // The function return value.
 
     // A temporary `rgbocolor_sequence` used for intermediate manipulations.
-    tg_rgbcolor_sequence rgbcolor_sequence_temp;
+    tg_direct_color_sequence direct_color_sequence_temp;
 
     va_list ap; // Arguement pointer for variadic arguments.
 
@@ -63,13 +63,13 @@ int tg_printf(const char *format, ...)
                 // proper ANSI escape sequence.
                 if(format[ftmidx + 2] == 'f') // Absolute foreground color.
                 {
-                    tg_to_rgbcolor_sequence(rgbcolor_sequence_temp, 
-                        va_arg(ap, int), TG_TERMLAYER_FOREGROUND);                    
+                    tg_to_rgbcolor_sequence(direct_color_sequence_temp, 
+                        va_arg(ap, int), TG_TERMINAL_LAYER_FOREGROUND);                    
                 }
                 else if(format[ftmidx + 2] == 'b') // Abs. background color.
                 {
-                    tg_to_rgbcolor_sequence(rgbcolor_sequence_temp, 
-                        va_arg(ap, int), TG_TERMLAYER_BACKGROUND);
+                    tg_to_rgbcolor_sequence(direct_color_sequence_temp, 
+                        va_arg(ap, int), TG_TERMINAL_LAYER_BACKGROUND);
                 }
                 else // Invalid specifier
                 {   
@@ -81,15 +81,15 @@ int tg_printf(const char *format, ...)
 
                 // If the specifier is valid, and so we got a rgbcolor
                 // sequence, we now need to insert it into the buffer.
-                strcpy(buffer + bufidx, rgbcolor_sequence_temp);
+                strcpy(buffer + bufidx, direct_color_sequence_temp);
                 // Excluding the null-terminator in the count takes a -1.
-                bufidx += TG_RGBCOLOR_SEQUENCE_LENGTH - 1;
+                bufidx += TG_DIRECT_COLOR_SEQUENCE_LENGTH - 1;
                 ftmidx += 3; // The specifier length.
                 // Since we do not want ANSI sequences to count towards the
                 // number of written characters, we subtract such sequences
                 // length to `written` every time we insert one of them into
                 // the buffer.
-                written -= TG_RGBCOLOR_SEQUENCE_LENGTH - 1;
+                written -= TG_DIRECT_COLOR_SEQUENCE_LENGTH - 1;
                 break;
 
             case 'r': // Relative color sequences.
@@ -121,9 +121,9 @@ int tg_printf(const char *format, ...)
                     break;
                 }
 
-                bufidx += TG_COLORSEQ_LENGTH - 1;
+                bufidx += TG_INDEXED_COLOR_SEQUENCE_LENGTH - 1;
                 ftmidx += 3;
-                written -= TG_COLORSEQ_LENGTH - 1;
+                written -= TG_INDEXED_COLOR_SEQUENCE_LENGTH - 1;
                 break;
 
             case 'B': // bold style
