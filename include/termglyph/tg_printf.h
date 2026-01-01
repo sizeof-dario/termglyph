@@ -20,63 +20,67 @@
  * @brief Writes formatted output to stdout.
  * 
  * @param format A format string that may contain both standard format
- *      specifiers (%) as long as extended format specifiers (#).
+ *      specifiers (%) and extended format specifiers (#).
  * 
  *      Standard specifiers behave like in printf, except for the character '#'
  *      being reserved. To obtain the literal behaviour used by printf, each
  *      '#' must be doubled as '##'.
  * 
- *      Extended specifiers control changes in text colors and attributes:
+ *      Extended specifiers control changes in text attributes:
  * 
- *      - `#af` Sets foreground color to an absolute color.
+ *      - `#df` Sets foreground color to a direct color passed as additional
+ *         parameter.
  * 
- *      - `#ab` Sets background color to an absolute color.
+ *      - `#db` Sets background color to a direct color passed as additional
+ *         parameter.
  * 
- *      - `#rf` Sets foreground color to a relative color.
+ *      - `#if` Sets foreground color to an indexed color passed as additional
+ *         parameter.
  * 
- *      - `#rb` Sets background color to a relative color.
+ *      - `#ib` Sets background color to an indexed color passed as additional
+ *         parameter.
  * 
- *      - `#0f` Resets foreground color.
+ *      - `#0f` Resets the foreground color.
  * 
- *      - `#0b` Resets background color.
+ *      - `#0b` Resets the background color.
  * 
  *      - `#0c` Resets all colors.
  *  
- *      - `#n' Inverse mode.
+ *      - `#n` Inverse mode (switches foreground and background colors).
  * 
- *      - `#0n` Disable reverse mode.
+ *      - `#0n` Disables reverse mode.
  * 
- *      - `#B` Makes the text bold.
+ *      - `#o` Makes the text bold.
  * 
- *      - `#0B` Resets bold attribute.
+ *      - `#0o` Resets the bold style.
  * 
  *      - `#d` Makes the text dim.
  * 
- *      - `#0d` Resets dim attribute.
+ *      - `#0d` Resets the dim style.
  * 
  *      - `#i` Makes the text italic.
  * 
- *      - `#0i` Resets italic attribute.
+ *      - `#0i` Resets the italic style.
  * 
- *      - `#u` Underlined text.
+ *      - `#u` Underlines text.
  * 
- *      - `#0u` Resets underlined attribute.
+ *      - `#0u` Resets the underline style.
  * 
- *      - `#U` Double Underlined text.
+ *      - `#w` Adds ad double underline to the text.
  * 
- *      - `#0U` Double Resets underlined attribute.
+ *      - `#0w` Resets the double underline style.
  * 
- *      - `#l` Blinking text.
+ *      - `#k` Makes the text blinking.
  * 
- *      - `#0l` Resets blinking attribute. 
+ *      - `#0k` Resets the blinking style. 
  * 
- *      - `#h` Hidden mode.
+ *      - `#h` Hides text.
  * 
- *      - `#0h` Disable hidde mode.
+ *      - `#0h` Resets the hidden style.
  * 
- *      - `#s` strikethrough mode. TO DO
+ *      - `#s` Applies the strikethrough style.
  * 
- *      - `#0s` disable strikethrough mode. TO DO
+ *      - `#0s` Resets the strikethrough style.
  * 
  *      - `##` Writes a literal '#' character.
  * 
@@ -88,20 +92,25 @@
  * @param ... If the format string contains any standard format specifier or
  *      color setting specifiers, the function expects additional arguments.
  *      The parameters corrisponding to extended specifiers must appear first,
- *      in the same order as their corresponding specifiers in the
- *      format string. After these, the remaining arguments correspond to the
- *      printf-like format specifiers, following the same rules as printf.
+ *      in the same order as their corresponding specifiers in the format
+ *      string. After these, the remaining arguments correspond to the printf
+ *      like format specifiers, following the same rules as printf.
+ *      
+ *      Color related format specifiers can be 24-bit colors (for direct
+ *      colors) and can be both passed as intigers or as separate rgb
+ *      components with the help of the `TG_RGB` macro, or they can be indexed
+ *      colors, for which the TG_INDEXED_COLOR macros exist.
  * 
  * @return If the function succeeds, it returns the number of characters
- *      written to stdout. The function uses ANSI escape sequences to alter
- *      text colors and attributes; these do not count to the return value.
+ *      written to stdout.
  *      
- *      If the function fails, returns -1.
+ *      If the function fails, it returns -1.
  *
  * @warning Passing arguments in the wrong order results in undefined
  *      behaviour.
  * 
- * @note For more about absolute and relative colors, check
+ * @note The function uses ANSI escape sequences to alter text colors and
+ *      styles; these do not add to the return value.
  *
  */
 int tg_printf(const char *format, ...);
