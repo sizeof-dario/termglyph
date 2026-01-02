@@ -14,103 +14,100 @@
 
 #include "text_attributes.h"
 
-// vvv still needs to be properly written
-
 /**
- * @brief Writes formatted output to stdout.
+ * @brief Writes formatted output to stdout, with support for text attributes.
  * 
  * @param format A format string that may contain both standard format
  *      specifiers (%) and extended format specifiers (#).
  * 
  *      Standard specifiers behave like in printf, except for the character '#'
  *      being reserved. To obtain the literal behaviour used by printf, each
- *      '#' must be doubled as '##'.
+ *      '#' must be doubled as '##'. Extended specifiers modify text colors and
+ *      styles.
  * 
- *      Extended specifiers control changes in text attributes:
+ *      Color specifiers:
  * 
- *      - `#df` Sets foreground color to a direct color passed as additional
- *         parameter.
+ *      - `#df` Sets foreground color to a direct color.
  * 
- *      - `#db` Sets background color to a direct color passed as additional
- *         parameter.
+ *      - `#db` Sets background color to a direct color.
  * 
- *      - `#if` Sets foreground color to an indexed color passed as additional
- *         parameter.
+ *      - `#if` Sets foreground color to an indexed color.
  * 
- *      - `#ib` Sets background color to an indexed color passed as additional
- *         parameter.
+ *      - `#ib` Sets background color to an indexed color.
  * 
  *      - `#0f` Resets the foreground color.
  * 
  *      - `#0b` Resets the background color.
  * 
- *      - `#0c` Resets all colors.
+ *      - `#0c` Resets both foreground and background colors.
+ * 
+ *      Style specifiers:
  *  
- *      - `#n` Inverse mode (switches foreground and background colors).
+ *      - `#n` Enables inverse mode (swaps foreground and background colors).
  * 
- *      - `#0n` Disables reverse mode.
+ *      - `#0n` Disables inverse mode.
  * 
- *      - `#o` Makes the text bold.
+ *      - `#o` Enables bold style.
  * 
- *      - `#0o` Resets the bold style.
+ *      - `#0o` Disables bold style.
  * 
- *      - `#d` Makes the text dim.
+ *      - `#m` Enables dim style.
  * 
- *      - `#0d` Resets the dim style.
+ *      - `#0m` Disables dim style.
  * 
- *      - `#i` Makes the text italic.
+ *      - `#t` Enables italic style.
  * 
- *      - `#0i` Resets the italic style.
+ *      - `#0t` Disable italic style.
  * 
- *      - `#u` Underlines text.
+ *      - `#u` Enables underline.
  * 
- *      - `#0u` Resets the underline style.
+ *      - `#0u` Disable underline.
  * 
- *      - `#w` Adds ad double underline to the text.
+ *      - `#w` Enables double underline.
  * 
- *      - `#0w` Resets the double underline style.
+ *      - `#0w` Disables double underline.
  * 
- *      - `#k` Makes the text blinking.
+ *      - `#k` Enables blinking.
  * 
- *      - `#0k` Resets the blinking style. 
+ *      - `#0k` Disables blinking. 
  * 
- *      - `#h` Hides text.
+ *      - `#h` Hides the text.
  * 
- *      - `#0h` Resets the hidden style.
+ *      - `#0h` Disables hidden text.
  * 
- *      - `#s` Applies the strikethrough style.
+ *      - `#s` Enables strikethrough.
  * 
- *      - `#0s` Resets the strikethrough style.
+ *      - `#0s` Disables strikethrough.
+ * 
+ *      Others:
  * 
  *      - `##` Writes a literal '#' character.
  * 
- *      - `#0` Resets all colors and attributes.
+ *      - `#0` Resets all colors and styles.
  * 
- * Extended specifiers that set colors requires the function to receive
- * additional parameters.
+ *      Color specifiers require additional parameters.
  * 
  * @param ... If the format string contains any standard format specifier or
- *      color setting specifiers, the function expects additional arguments.
- *      The parameters corrisponding to extended specifiers must appear first,
+ *      color specifiers, the function expects additional arguments.
+ *      The parameters corrisponding to color specifiers must appear first,
  *      in the same order as their corresponding specifiers in the format
  *      string. After these, the remaining arguments correspond to the printf
  *      like format specifiers, following the same rules as printf.
  *      
- *      Color related format specifiers can be 24-bit colors (for direct
- *      colors) and can be both passed as intigers or as separate rgb
- *      components with the help of the `TG_RGB` macro, or they can be indexed
- *      colors, for which the TG_INDEXED_COLOR macros exist.
+ *      Direct colors can be passed as 24-bit values, either as a an (unsigned)
+ *      integer or constructed from separate RGB components using the `TG_RGB`
+ *      macro. Indexed colors can be passed using the `TG_INDEXED_COLOR`
+ *      macros.
  * 
- * @return If the function succeeds, it returns the number of characters
- *      written to stdout.
+ * @return On success, returns the number of characters written to stdout.
  *      
- *      If the function fails, it returns -1.
+ *      On failure, returns -1.
  *
- * @warning Passing arguments in the wrong order results in undefined
- *      behaviour.
+ * @warning Passing arguments in an order that does not match the format string
+ *          results in undefined behaviour.
  * 
- * @note The function uses ANSI escape sequences to alter text colors and
- *      styles; these do not add to the return value.
+ * @note The function uses ANSI escape sequences to control text colors and
+ *      styles. They do not contribute to the returned character count.
  *
  */
 int tg_printf(const char *format, ...);

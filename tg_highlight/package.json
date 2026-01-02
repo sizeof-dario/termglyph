@@ -1,0 +1,21 @@
+{
+  "name": "termglyph-highlight",
+  "displayName": "termglyph extended specifiers highlighting",
+  "version": "0.1.0",
+  "publisher": "malloc",
+  "license": "MIT",
+  "categories": ["Programming Languages"],
+  "engines": {
+    "vscode": "^1.80.0"
+  },
+  "icon": "images/icon.png",
+  "contributes": {
+    "grammars": [
+      {
+        "scopeName": "termglyph.printf",
+        "path": "./syntaxes/termglyph.tmLanguage.json",
+        "injectTo": ["source.c"]
+      }
+    ]
+  }
+}

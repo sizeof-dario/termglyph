@@ -1,5 +1,7 @@
 #include "../include/termglyph/text_attributes.h"
 
+
+
 void tg_to_rgbcolor_sequence(
     tg_direct_color_sequence direct_color_sequence, 
     const unsigned int rgb_value, 

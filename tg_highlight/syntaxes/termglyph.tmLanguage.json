@@ -1,0 +1,14 @@
+{
+  "scopeName": "termglyph.printf",
+  "injectionSelector": "L:string.quoted.double.c",
+  "patterns": [
+    {
+      "name": "constant.other.termglyph.c",
+      "match": "#(df|db|if|ib|0f|0b|0c|n|0n|o|0o|m|0m|t|0t|u|0u|w|0w|k|0k|h|0h|s|0s|#|0)"
+    },
+    {
+      "name": "invalid.illegal.termglyph.c",
+      "match": "#(?!df|db|if|ib|0f|0b|0c|n|0n|o|0o|m|0m|t|0t|u|0u|w|0w|k|0k|h|0h|s|0s|#|0)."
+    }
+  ]
+}

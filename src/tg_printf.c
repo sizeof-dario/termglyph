@@ -1,5 +1,7 @@
 #include "../include/termglyph/tg_printf.h"
 
+
+
 int tg_printf(const char *format, ...)
 {
     // ---------------------------------- 01 ----------------------------------
@@ -58,7 +60,7 @@ int tg_printf(const char *format, ...)
         {
             switch (format[ftmidx + 1])
             {
-            case 'a': // Absolute color sequences.
+            case 'd': // Absolute color sequences.
                 // First part consists in converting the RGB 24-bit value to a
                 // proper ANSI escape sequence.
                 if(format[ftmidx + 2] == 'f') // Absolute foreground color.
@@ -92,7 +94,7 @@ int tg_printf(const char *format, ...)
                 written -= TG_DIRECT_COLOR_SEQUENCE_LENGTH - 1;
                 break;
 
-            case 'r': // Relative color sequences.
+            case 'i': // Relative color sequences.
                 if(format[ftmidx + 2] == 'f') // Relative foreground color.
                 {
                     strcpy(buffer + bufidx, va_arg(ap, char*));                  
@@ -126,21 +128,21 @@ int tg_printf(const char *format, ...)
                 written -= TG_INDEXED_COLOR_SEQUENCE_LENGTH - 1;
                 break;
 
-            case 'B': // bold style
+            case 'o': // bold style
                 strcpy(buffer + bufidx, TG_TEXT_STYLE_BOLD);   
                 bufidx += TG_TEXT_STYLE_SEQUENCE_LENGTH - 1;
                 ftmidx += 2;
                 written -= TG_TEXT_STYLE_SEQUENCE_LENGTH - 1;
                 break;
 
-            case 'd': // dim style
+            case 'm': // dim style
                 strcpy(buffer + bufidx, TG_TEXT_STYLE_DIM);   
                 bufidx += TG_TEXT_STYLE_SEQUENCE_LENGTH - 1;
                 ftmidx += 2;
                 written -= TG_TEXT_STYLE_SEQUENCE_LENGTH - 1;
                 break;
 
-            case 'i': // italic style
+            case 't': // italic style
                 strcpy(buffer + bufidx, TG_TEXT_STYLE_ITALIC);   
                 bufidx += TG_TEXT_STYLE_SEQUENCE_LENGTH - 1;
                 ftmidx += 2;
@@ -154,7 +156,7 @@ int tg_printf(const char *format, ...)
                 written -= TG_TEXT_STYLE_SEQUENCE_LENGTH - 1;
                 break;
 
-            case 'l': // blinking style
+            case 'k': // blinking style
                 strcpy(buffer + bufidx, TG_TEXT_STYLE_BLINKING);   
                 bufidx += TG_TEXT_STYLE_SEQUENCE_LENGTH - 1;
                 ftmidx += 2;
@@ -168,7 +170,7 @@ int tg_printf(const char *format, ...)
                 written -= TG_TEXT_STYLE_SEQUENCE_LENGTH - 1;
                 break;
 
-            case 'U': // double underline style
+            case 'w': // double underline style
             strcpy(buffer + bufidx, TG_TEXT_STYLE_DOUBLE_UNDERLINE);   
             bufidx += TG_TEXT_STYLE_SEQUENCE_LENGTH - 1;
             ftmidx += 2;
@@ -192,19 +194,19 @@ int tg_printf(const char *format, ...)
             case '0': // reset modes
                 switch (format[ftmidx + 2]) // check which specific mode it is
                 {
-                case 'B': // reset bold style
+                case 'o': // reset bold style
                     strcpy(buffer + bufidx, TG_TEXT_STYLE_BOLD_RESET);   
                     bufidx += TG_TEXT_STYLE_SEQUENCE_LENGTH - 1;
                     ftmidx += 3;
                     break;
                 
-                case 'd': // reset dim style
+                case 'm': // reset dim style
                     strcpy(buffer + bufidx, TG_TEXT_STYLE_DIM_RESET);   
                     bufidx += TG_TEXT_STYLE_SEQUENCE_LENGTH - 1;
                     ftmidx += 3;
                     break;
 
-                case 'i': // reset italic style
+                case 't': // reset italic style
                     strcpy(buffer + bufidx, TG_TEXT_STYLE_ITALIC_RESET);   
                     bufidx += TG_TEXT_STYLE_SEQUENCE_LENGTH - 1;
                     ftmidx += 3;
@@ -216,7 +218,7 @@ int tg_printf(const char *format, ...)
                     ftmidx += 3;
                     break;
 
-                case 'l': // reset blinking style
+                case 'k': // reset blinking style
                     strcpy(buffer + bufidx, TG_TEXT_STYLE_BLINKING_RESET);   
                     bufidx += TG_TEXT_STYLE_SEQUENCE_LENGTH - 1;
                     ftmidx += 3;
@@ -248,7 +250,7 @@ int tg_printf(const char *format, ...)
                     ftmidx += 3;
                     break;
 
-                case 'U': // reset double underline style
+                case 'w': // reset double underline style
                     strcpy(buffer + bufidx, TG_TEXT_STYLE_DOUBLE_UNDERLINE_RESET);   
                     bufidx += TG_TEXT_STYLE_SEQUENCE_LENGTH - 1;
                     ftmidx += 3;
