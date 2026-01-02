@@ -71,26 +71,6 @@ typedef enum tg_terminal_layer {
 
 
 
-
-/**
- * @brief Converts a 24-bit RGB color value into a `tg_direct_color_sequence`
- *      type.
- * 
- * @param direct_color_sequence A `tg_direct_color_sequence` to store the
- *      conversion result.
- * @param rgb_value The 24-bit RGB value of the color to convert.
- * @param terminal_layer The terminal layer of the color to convert, either
- *      being `TG_TERMINAL_LAYER_FOREGROUND` or `TG_TERMINAL_LAYER_BACKGROUND`.
- * 
- */
-void tg_to_rgbcolor_sequence(
-    tg_direct_color_sequence direct_color_sequence, 
-    const unsigned int rgb_value, 
-    const tg_terminal_layer terminal_layer
-);
-
-
-
 /**
  * @brief Converts red, green and blue components to a 24-bit RGB color value.
  *  
@@ -213,6 +193,37 @@ void tg_to_rgbcolor_sequence(
 #define TG_TEXT_STYLE_STRIKETHROUGH_RESET       "\033[29m"
 #define TG_TEXT_STYLE_DOUBLE_UNDERLINE_RESET    "\033[24m"
 /** @} */
+
+
+
+#ifdef __cplusplus
+extern "C" {
+#endif
+
+
+
+/**
+ * @brief Converts a 24-bit RGB color value into a `tg_direct_color_sequence`
+ *      type.
+ * 
+ * @param direct_color_sequence A `tg_direct_color_sequence` to store the
+ *      conversion result.
+ * @param rgb_value The 24-bit RGB value of the color to convert.
+ * @param terminal_layer The terminal layer of the color to convert, either
+ *      being `TG_TERMINAL_LAYER_FOREGROUND` or `TG_TERMINAL_LAYER_BACKGROUND`.
+ * 
+ */
+void tg_to_rgbcolor_sequence(
+    tg_direct_color_sequence direct_color_sequence, 
+    const unsigned int rgb_value, 
+    const tg_terminal_layer terminal_layer
+);
+
+
+
+#ifdef __cplusplus
+}
+#endif
 
 
 

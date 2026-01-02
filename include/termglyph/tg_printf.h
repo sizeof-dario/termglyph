@@ -34,6 +34,12 @@ typedef struct cell
 #define TG_PRINTPPM_MODE_COLOURED   2
 
 
+
+#ifdef __cplusplus
+extern "C" {
+#endif
+
+
 /**
  * @brief Writes formatted output to stdout, with support for text attributes.
  * 
@@ -136,5 +142,13 @@ int tg_printf(const char *format, ...);
  * 
  */
 int tg_printppm(const char *path, uint8_t modes);
+
+
+
+#ifdef __cplusplus
+}
+#endif
+
+
 
 #endif // TERMGLYPH_PRINTF_H
