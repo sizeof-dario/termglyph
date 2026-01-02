@@ -315,3 +315,86 @@ int tg_printf(const char *format, ...)
     free(buffer);
     return written;
 }
+
+
+
+int tg_printppm(const char* path, uint8_t modes)
+{
+    // ---------------------------------- 01 ---------------------------------- 
+    // First we open the ppm image.
+    FILE *f = fopen(path, "rb");
+    if(!f)
+    {
+        return 1;
+    }
+
+    // ---------------------------------- 02 ---------------------------------- 
+    // In this body section, we first read the header content and then proceed
+    // to get the pixel data.
+
+    char line[128];
+    fgets(line, sizeof line, f); // P6
+
+    ////// must check for comments!
+
+    int width, height, maxval;
+
+    fgets(line, sizeof line, f);
+    sscanf(line, "%d %d", &width, &height);
+
+    fgets(line, sizeof line, f); // legge maxval
+    sscanf(line, "%d", &maxval);
+
+    unsigned char *pixels = malloc(3 * width * height);
+    if(!pixels)
+    {
+        fclose(f);
+        return 1;
+    }
+    fread(pixels, 3, width * height, f);
+    fclose(f);
+
+    // ---------------------------------- 03 ----------------------------------
+    cell *cell_buffer = malloc((width*height + height + 1) * sizeof(cell));
+
+    int k = 0;
+    for (int y=0; y<height; ++y) {
+        for (int x=0; x<width; ++x) {
+            int i = y*width + x;
+            cell_buffer[k].r = pixels[3*i];
+            cell_buffer[k].g = pixels[3*i+1];
+            cell_buffer[k].b = pixels[3*i+2];
+            cell_buffer[k].luma = 0.2126*cell_buffer[k].r + 0.7152*cell_buffer[k].g + 0.0722*cell_buffer[k].b;
+            cell_buffer[k++].c = TG_ASCII_RAMP[cell_buffer[k].luma * (TG_ASCII_RAMP_LENGTH-1)/255];
+        }
+        cell_buffer[k].c = '\n';
+        cell_buffer[k].r = 0;
+        cell_buffer[k].g = 0;
+        cell_buffer[k].luma = 0;
+        cell_buffer[k++].b = 0;
+    }
+    cell_buffer[k].c = '\0';
+    cell_buffer[k].r = 0;
+    cell_buffer[k].g = 0;
+    cell_buffer[k].b = 0;
+    cell_buffer[k].luma = 0;
+
+
+
+
+
+
+    // this thing really needs to be buffered.
+    // Need to implement modes
+    for (size_t i = 0; i < width*height + height + 1; i++)
+    {
+        tg_printf("#db#df%c", TG_RGB(cell_buffer[i].r, cell_buffer[i].g, cell_buffer[i].b), TG_RGB(255, 255, 255), cell_buffer[i].c);
+    }
+
+
+    free(cell_buffer);
+    free(pixels);
+    return 0;
+}
+
+

@@ -14,6 +14,26 @@
 
 #include "text_attributes.h"
 
+
+
+typedef struct cell
+{
+    uint8_t r;
+    uint8_t g;
+    uint8_t b;
+    uint8_t luma;
+    char c;
+} cell;
+
+
+#define TG_ASCII_RAMP " .:-=+*#%@"
+#define TG_ASCII_RAMP_LENGTH 10
+
+
+#define TG_PRINTPPM_MODE_ASCII      1
+#define TG_PRINTPPM_MODE_COLOURED   2
+
+
 /**
  * @brief Writes formatted output to stdout, with support for text attributes.
  * 
@@ -111,5 +131,10 @@
  *
  */
 int tg_printf(const char *format, ...);
+
+/**
+ * 
+ */
+int tg_printppm(const char *path, uint8_t modes);
 
 #endif // TERMGLYPH_PRINTF_H
