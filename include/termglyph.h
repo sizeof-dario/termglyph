@@ -9,6 +9,6 @@
 #ifndef TERMGLYPH_H
 #define TERMGLYPH_H
 
-#include "termglyph/tg_printf.h"
+#include "termglyph/print.h"
 
 #endif // TERMGLPYH_H

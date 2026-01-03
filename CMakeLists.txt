@@ -7,8 +7,7 @@ add_executable(termglyph_testing)
 
 target_sources(termglyph
     PRIVATE
-        src/tg_printf.c
-        src/text_attributes.c
+        src/print.c
 
     PUBLIC
         FILE_SET HEADERS 

@@ -1,13 +1,14 @@
 /*************************************************************************//**
  * 
- * @file tg_printf.h
+ * @file print.h
  * 
- * @brief Header file dedicated to the tg_printf function
+ * @brief Functions printing to stdout.
  * 
  *****************************************************************************/
-#ifndef TERMGLYPH_PRINTF_H
-#define TERMGLYPH_PRINTF_H
+#ifndef TERMGLYPH_PRINT_H
+#define TERMGLYPH_PRINT_H
 
+#include <ctype.h>
 #include <stdarg.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -16,28 +17,10 @@
 
 
 
-typedef struct cell
-{
-    uint8_t r;
-    uint8_t g;
-    uint8_t b;
-    uint8_t luma;
-    char c;
-} cell;
-
-
-#define TG_ASCII_RAMP " .:-=+*#%@"
-#define TG_ASCII_RAMP_LENGTH 10
-
-
-#define TG_PRINTPPM_MODE_ASCII      1
-#define TG_PRINTPPM_MODE_COLOURED   2
-
-
-
 #ifdef __cplusplus
 extern "C" {
 #endif
+
 
 
 /**
@@ -139,9 +122,16 @@ extern "C" {
 int tg_printf(const char *format, ...);
 
 /**
+ * @brief Converts a P6 ppm image into glyphs and prints them to stdout.
  * 
+ * @param path Path to the image file.
+ * 
+ * @return 0 on success, non-zero value otherwise.
+ * 
+ * @warning The presence of '#'-comments in the ppm file is not currently
+ *      supported.
  */
-int tg_printppm(const char *path, uint8_t modes);
+int tg_printppm(const char *path);
 
 
 
